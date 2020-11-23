@@ -29,5 +29,4 @@ public class ExcelListener extends AnalysisEventListener<Object> {
   public void setData(List<Object> data) {
     this.data = data;
   }
-
 }

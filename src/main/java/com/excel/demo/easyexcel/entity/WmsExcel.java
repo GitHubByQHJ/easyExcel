@@ -78,4 +78,5 @@ public class WmsExcel{
   private String amount;
 
   private String sNCode;
+
 }

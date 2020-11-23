@@ -127,4 +127,5 @@ public class WmsExcelModelTest extends BaseRowModel {
 
   @ExcelProperty(value = "SN Code", index = 34)
   private String ai;
+
 }

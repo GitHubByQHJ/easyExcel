@@ -21,4 +21,5 @@ public class GoodsDetailVo {
   // private Object explicit;
   //
   // private Object additional;
+
 }

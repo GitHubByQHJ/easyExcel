@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 @ApiModel
 public class ResponseWrap<T> {
+
   private static final String SUCCESS_MESSAGE = "success";
 
   @ApiModelProperty(value = "错误码")

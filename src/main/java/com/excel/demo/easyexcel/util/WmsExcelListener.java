@@ -5,7 +5,7 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.metadata.Sheet;
-import com.flashexpress.version.ms.entity.WmsExcelModel;
+import com.excel.demo.easyexcel.entity.WmsExcelModel;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;

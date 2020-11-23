@@ -72,5 +72,4 @@ public class GoodsDetail extends BaseRowModel {
   @HeadStyle(fillPatternType = FillPatternType.SOLID_FOREGROUND, fillForegroundColor = 13)
   @ExcelProperty(value = "Quantity", index = 12)
   private String goodsNumberChild;
-
 }

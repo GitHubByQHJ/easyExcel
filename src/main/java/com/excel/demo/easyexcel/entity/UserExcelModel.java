@@ -99,6 +99,4 @@ public class UserExcelModel extends BaseRowModel {
 
   @ExcelProperty(value = "测试字段20", index = 27)
   private String test20;
-
-
 }

@@ -127,4 +127,5 @@ public class GoodsInformation extends BaseRowModel {
 
   @ExcelProperty(value = "SN Code", index = 34)
   private String snCode;
+
 }
