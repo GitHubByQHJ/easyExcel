@@ -16,7 +16,7 @@ import org.apache.poi.ss.usermodel.FillPatternType;
 @HeadStyle(fillPatternType = FillPatternType.SOLID_FOREGROUND, fillForegroundColor = 14)
 // 头字体设置成10
 @HeadFontStyle(fontHeightInPoints = 10)
-public class GoodsDetail extends BaseRowModel {
+public class GoodsDetail {
 
   private static final long serialVersionUID = 1L;
   //设置背景色为白色

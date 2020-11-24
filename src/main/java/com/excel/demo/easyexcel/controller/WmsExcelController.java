@@ -121,48 +121,36 @@ public class WmsExcelController {
   @ApiOperation("生成Excel")
   @RequestMapping(value = "/operationExcel", method = RequestMethod.POST,produces = "application/json;charset=utf-8")
   public void operationExcel(String jsonStr) throws Exception {
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    System.out.println("开始处理json时间:"+df.format(new Date()));
     Pattern p = Pattern.compile("\\s*|\t|\r|\n");
     Matcher m = p.matcher(jsonStr);
     jsonStr = m.replaceAll("");
-    System.out.println("开始处理json转JSONObject时间:"+df.format(new Date()));
     JSONArray jsonArr = JSONArray.parseArray(jsonStr);
     JSONObject result = jsonArr.getJSONObject(0);
     JSONObject result2 = jsonArr.getJSONObject(1);
-    System.out.println("结束处理json转JSONObject时间:"+df.format(new Date()));
-    System.out.println("开始处理JSONObject转JGoodsInfomationVo时间:"+df.format(new Date()));
     GoodsInfomationVo goodsInformation = JSON.toJavaObject(result,GoodsInfomationVo.class);
-    System.out.println("结束处理JSONObject转JGoodsInfomationVo时间:"+df.format(new Date()));
-    System.out.println("开始处理JSONObject转GoodsDetailVo时间:"+df.format(new Date()));
     GoodsDetailVo goodsDetail = JSON.toJavaObject(result2,GoodsDetailVo.class);
-    System.out.println("结束处理JSONObject转GoodsDetailVo时间:"+df.format(new Date()));
-    System.out.println("结束处理json时间:"+df.format(new Date()));
     //文件名加时间戳避免并发
     String path = tempFilePath+"/WmsExcel"+System.currentTimeMillis()+".xlsx";
     //文件路径
-    File f = new File(path);
-    if (!f.getParentFile().exists()) {
-      f.getParentFile().mkdirs();
+    File file = new File(path);
+    if (!file.getParentFile().exists()) {
+      file.getParentFile().mkdirs();
     }
     //指定文件输出位置
-    OutputStream outputStream =new FileOutputStream(path);
-    ExcelWriter excelWriter = EasyExcelFactory.getWriter(outputStream);
-    //将要输出的内容填充到Sheet里
-    Sheet sheetOne =new Sheet(1,0, GoodsInformation.class );
-    Sheet sheetTwo =new Sheet(2,0, GoodsDetail.class );
-    //设置sheet表名
-    sheetOne.setSheetName(goodsInformation.getSheet());
-    sheetTwo.setSheetName(goodsDetail.getSheet());
-    //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    System.out.println("开始写入Excel时间:"+df.format(new Date()));
-    excelWriter.write(goodsInformation.getBody(),sheetOne);
-    excelWriter.write(goodsDetail.getBody(),sheetTwo);
-    excelWriter.finish();
-    outputStream.close();
-    System.out.println("结束写入Excel时间:"+df.format(new Date()));
-    File file = new File(path);
-    InputStream inputStream = new FileInputStream(file);
+    try {
+      ExcelWriter excelWriter = EasyExcel.write(path).build();
+      //创建writeSheet 这里注意必须指定sheetNo 而且sheetName必须不一样
+      WriteSheet writeSheet1 = EasyExcel.writerSheet(1, goodsInformation.getSheet()).head(GoodsInformation.class).build();
+      WriteSheet writeSheet2 = EasyExcel.writerSheet(2, goodsDetail.getSheet()).head(GoodsDetail.class).build();
+      //将要输出的内容填充到Sheet里
+      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      System.out.println("开始写入Excel时间:" + df.format(new Date()));
+      excelWriter.write(goodsInformation.getBody(), writeSheet1);
+      excelWriter.write(goodsDetail.getBody(), writeSheet2);
+      excelWriter.finish();
+      System.out.println("结束写入Excel时间:" + df.format(new Date()));
+      // 读取文件上传到oss
+      InputStream inputStream = new FileInputStream(file);
     //文件上传到阿里云
     // OssUploadResult result3 =
     //   this.ossManager.uploadAndResult(
